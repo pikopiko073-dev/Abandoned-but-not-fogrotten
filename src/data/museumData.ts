@@ -472,16 +472,30 @@ export function createGrayHardwarePlaceholder(title: string, years: string, zone
 }
 
 // ============================================================================
-// 1. CENTRAL CONFIGURATION OBJECT (Replace placeholder texture URLs here)
+// 1. CENTRAL CONFIGURATION OBJECT (Realistic NASA planetary textures & topography)
 // ============================================================================
+/**
+ * Resolves static texture paths correctly across local dev, Vite base, Vercel, and GitHub Pages.
+ */
+export const getTextureUrl = (filename: string): string => {
+  const meta = import.meta as unknown as { env?: { BASE_URL?: string } };
+  const base = typeof meta !== 'undefined' && meta.env?.BASE_URL
+    ? meta.env.BASE_URL
+    : '/';
+  const cleanBase = base.endsWith('/') ? base : `${base}/`;
+  return `${cleanBase}textures/${filename}`;
+};
+
 export const CONFIG: MuseumConfig = {
   // Exact pinned version of globe.gl from jsDelivr CDN
   globeCdnUrl: 'https://cdn.jsdelivr.net/npm/globe.gl@2.35.1/dist/globe.gl.min.js',
+  backgroundImageUrl: getTextureUrl('night_sky.png'),
   textures: {
     Moon: {
-      // Replace globeImageUrl with your NASA LRO Moon texture URL when ready
-      globeImageUrl: createMoonTexture(),
-      bumpImageUrl: createMoonBumpMap(),
+      globeImageUrl: getTextureUrl('moon_surface.jpg'),
+      bumpImageUrl: getTextureUrl('moon_bump.jpg'),
+      fallbackGlobeImageUrl: 'https://cdn.jsdelivr.net/gh/jeromeetienne/threex.planets@master/images/moonmap1k.jpg',
+      fallbackBumpImageUrl: 'https://cdn.jsdelivr.net/gh/vasturiano/globe.gl@master/example/moon-landing-sites/lunar_bumpmap.jpg',
       atmosphereEnabled: false, // Strictly no atmosphere on the Moon
       label: 'The Moon (Luna)',
       subtitle: 'Earth’s airless rocky companion — home to Apollo landers, rovers, and robotic surveyors.',
@@ -489,12 +503,13 @@ export const CONFIG: MuseumConfig = {
       gravity: '1.62 m/s² (0.166 g)',
     },
     Mars: {
-      // Replace globeImageUrl with your NASA Viking / MGS Mars texture URL when ready
-      globeImageUrl: createMarsTexture(),
-      bumpImageUrl: createMarsBumpMap(),
+      globeImageUrl: getTextureUrl('mars_surface.jpg'),
+      bumpImageUrl: getTextureUrl('mars_bump.jpg'),
+      fallbackGlobeImageUrl: 'https://cdn.jsdelivr.net/gh/jeromeetienne/threex.planets@master/images/marsmap1k.jpg',
+      fallbackBumpImageUrl: 'https://cdn.jsdelivr.net/gh/jeromeetienne/threex.planets@master/images/marsbump1k.jpg',
       atmosphereEnabled: true,
-      atmosphereColor: '#F97316',
-      atmosphereAltitude: 0.14,
+      atmosphereColor: '#C1440E',
+      atmosphereAltitude: 0.12,
       label: 'Mars (The Red Planet)',
       subtitle: 'A world inhabited entirely by robots — rovers, landers, and the first aircraft to fly on another planet.',
       radiusKm: '3,389.5 km',

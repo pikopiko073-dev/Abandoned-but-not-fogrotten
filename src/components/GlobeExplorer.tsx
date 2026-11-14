@@ -116,11 +116,37 @@ export const GlobeExplorer: React.FC<GlobeExplorerProps> = ({
           world.bumpImageUrl(planetConfig.bumpImageUrl);
         }
 
+        // Apply authentic celestial starfield background when available
+        if (config.backgroundImageUrl) {
+          world.backgroundImageUrl(config.backgroundImageUrl);
+        }
+
+        // Automatic texture error fallback to CDN if local bundle fails
+        if (planetConfig.fallbackGlobeImageUrl) {
+          const testImg = new Image();
+          testImg.onerror = () => {
+            if (isMounted && planetConfig.fallbackGlobeImageUrl) {
+              world.globeImageUrl(planetConfig.fallbackGlobeImageUrl);
+            }
+          };
+          testImg.src = planetConfig.globeImageUrl;
+        }
+
+        if (planetConfig.bumpImageUrl && planetConfig.fallbackBumpImageUrl) {
+          const testBump = new Image();
+          testBump.onerror = () => {
+            if (isMounted && planetConfig.fallbackBumpImageUrl) {
+              world.bumpImageUrl(planetConfig.fallbackBumpImageUrl);
+            }
+          };
+          testBump.src = planetConfig.bumpImageUrl;
+        }
+
         // Configure atmosphere (Moon strictly has none; Mars has thin orange-tinted dust haze)
         world
           .showAtmosphere(planet === 'Moon' ? false : Boolean(planetConfig.atmosphereEnabled))
-          .atmosphereColor(planetConfig.atmosphereColor || '#F97316')
-          .atmosphereAltitude(planetConfig.atmosphereAltitude || 0.14)
+          .atmosphereColor(planetConfig.atmosphereColor || '#C1440E')
+          .atmosphereAltitude(planetConfig.atmosphereAltitude || 0.12)
           // Points layer for WebGL raycast hover & click
           .pointsData(exhibits)
           .pointLat('lat')

@@ -104,6 +104,8 @@ export interface Exhibit {
 export interface PlanetTextureConfig {
   globeImageUrl: string;
   bumpImageUrl: string;
+  fallbackGlobeImageUrl?: string;
+  fallbackBumpImageUrl?: string;
   atmosphereEnabled: boolean;
   atmosphereColor?: string;
   atmosphereAltitude?: number;
@@ -115,6 +117,7 @@ export interface PlanetTextureConfig {
 
 export interface MuseumConfig {
   globeCdnUrl: string;
+  backgroundImageUrl?: string;
   textures: {
     Moon: PlanetTextureConfig;
     Mars: PlanetTextureConfig;
