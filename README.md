@@ -3,6 +3,8 @@
 
 An interactive 3D digital museum and scientific visualizer cataloging historical NASA spacecraft, landers, rovers, and probes stationed across the Moon, Mars, and interstellar space.
 
+**Live Interactive Demo**: [https://pikopiko073-dev.github.io/Abandoned-but-not-fogrotten/](https://pikopiko073-dev.github.io/Abandoned-but-not-fogrotten/)
+
 ---
 
 ## Project Overview
