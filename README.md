@@ -77,8 +77,8 @@ This project utilizes public scientific data, landing coordinates, and mission t
 
 ```bash
 # Clone repository
-git clone https://github.com/<your-username>/Abandoned-but-Not-Forgotten.git
-cd Abandoned-but-Not-Forgotten
+git clone https://github.com/Zhiger5643266/Abandoned-but-not-fogrotten.git
+cd Abandoned-but-not-fogrotten
 
 # Install dependencies
 npm install
