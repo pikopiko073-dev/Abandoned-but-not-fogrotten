@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Sparkles } from 'lucide-react';
 import { TimelineMilestone } from '../types';
 
 interface MissionTimelineViewProps {
@@ -89,7 +90,7 @@ export const MissionTimelineView: React.FC<MissionTimelineViewProps> = ({
         </p>
 
         <div className="p-3.5 rounded-xl bg-zinc-950/70 border border-zinc-800/80 flex items-start space-x-2.5">
-          <span className="text-amber-400 text-base leading-none mt-0.5">✦</span>
+          <Sparkles className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
           <div>
             <span className="text-[11px] font-mono font-semibold text-amber-300 uppercase tracking-wider block">
               Historical & Scientific Impact

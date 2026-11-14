@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Eye, Zap, Compass, Radio, Wrench, Cpu, Settings, Lightbulb } from 'lucide-react';
 import { HardwareComponent } from '../types';
 
 interface InsideTheMachineProps {
@@ -6,13 +7,23 @@ interface InsideTheMachineProps {
   components: HardwareComponent[];
 }
 
-const ROLE_ICONS: Record<HardwareComponent['role'], string> = {
-  'Eyes & Optics': '👁️',
-  'Power & Heart': '⚡',
-  'Mobility & Legs': '🦿',
-  'Voice to Earth': '📡',
-  'Hands & Instruments': '🔬',
-  'Brain & Memory': '🧠',
+const renderRoleIcon = (role: HardwareComponent['role'], className = "w-4 h-4") => {
+  switch (role) {
+    case 'Eyes & Optics':
+      return <Eye className={className} />;
+    case 'Power & Heart':
+      return <Zap className={className} />;
+    case 'Mobility & Legs':
+      return <Compass className={className} />;
+    case 'Voice to Earth':
+      return <Radio className={className} />;
+    case 'Hands & Instruments':
+      return <Wrench className={className} />;
+    case 'Brain & Memory':
+      return <Cpu className={className} />;
+    default:
+      return <Settings className={className} />;
+  }
 };
 
 const ROLE_COLORS: Record<HardwareComponent['role'], { bg: string; text: string; border: string }> = {
@@ -69,7 +80,7 @@ export const InsideTheMachine: React.FC<InsideTheMachineProps> = ({
       <div className="flex overflow-x-auto sm:grid sm:grid-cols-3 md:grid-cols-5 gap-2 pb-1 no-scrollbar touch-pan-x">
         {components.map((comp) => {
           const isSelected = comp.id === activeComponent.id;
-          const icon = ROLE_ICONS[comp.role] || '⚙️';
+          const compColor = ROLE_COLORS[comp.role] || { text: 'text-zinc-400' };
           return (
             <button
               key={comp.id}
@@ -81,7 +92,9 @@ export const InsideTheMachine: React.FC<InsideTheMachineProps> = ({
               }`}
             >
               <div className="flex items-center justify-between w-full mb-1">
-                <span className="text-lg">{icon}</span>
+                <span className={isSelected ? 'text-cyan-400' : compColor.text}>
+                  {renderRoleIcon(comp.role, "w-4 h-4")}
+                </span>
                 <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">
                   {comp.role.split(' ')[0]}
                 </span>
@@ -100,9 +113,10 @@ export const InsideTheMachine: React.FC<InsideTheMachineProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <span
-              className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-mono font-semibold border ${roleStyle.bg} ${roleStyle.text} ${roleStyle.border} mb-2`}
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-semibold border ${roleStyle.bg} ${roleStyle.text} ${roleStyle.border} mb-2`}
             >
-              {ROLE_ICONS[activeComponent.role]} {activeComponent.role}
+              {renderRoleIcon(activeComponent.role, "w-3.5 h-3.5")}
+              <span>{activeComponent.role}</span>
             </span>
             <h4 className="text-xl font-bold text-white tracking-tight">
               {activeComponent.name}
@@ -119,7 +133,7 @@ export const InsideTheMachine: React.FC<InsideTheMachineProps> = ({
 
         {/* Intuitive School-Friendly Analogy */}
         <div className="p-4 rounded-xl bg-cyan-950/20 border border-cyan-800/30 flex items-start space-x-3">
-          <span className="text-cyan-400 text-xl leading-none mt-0.5">💡</span>
+          <Lightbulb className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
           <div>
             <span className="text-xs font-mono font-semibold uppercase tracking-wider text-cyan-300 block mb-0.5">
               The Simple Analogy

@@ -1,4 +1,5 @@
 import React from 'react';
+import { CheckCircle2, AlertTriangle } from 'lucide-react';
 import { MissionEndRecord, ExhibitStatus } from '../types';
 
 interface MissionEndViewProps {
@@ -49,8 +50,18 @@ export const MissionEndView: React.FC<MissionEndViewProps> = ({
             <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider block mb-1">
               MISSION ARCHITECTURE NATURE
             </span>
-            <span className={`text-sm sm:text-base font-bold font-mono ${endRecord.wasPlanned ? 'text-emerald-400' : 'text-amber-400'}`}>
-              {endRecord.wasPlanned ? '✓ PLANNED MISSION ARCHITECTURE' : '⚡ UNPLANNED NATURAL TERMINATION'}
+            <span className={`inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold font-mono ${endRecord.wasPlanned ? 'text-emerald-400' : 'text-amber-400'}`}>
+              {endRecord.wasPlanned ? (
+                <>
+                  <CheckCircle2 className="w-4 h-4 shrink-0" />
+                  <span>PLANNED MISSION ARCHITECTURE</span>
+                </>
+              ) : (
+                <>
+                  <AlertTriangle className="w-4 h-4 shrink-0" />
+                  <span>UNPLANNED NATURAL TERMINATION</span>
+                </>
+              )}
             </span>
           </div>
         </div>

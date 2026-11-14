@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { Compass, Sparkles, Orbit, Layers, Rocket, ShieldAlert, Cpu, Type } from 'lucide-react';
+import { Compass, Sparkles, Orbit, Layers, Rocket, ShieldAlert, Cpu, Type, Check } from 'lucide-react';
 import { CONFIG as MUSEUM_CONFIG, EXHIBITS as MUSEUM_EXHIBITS } from './data/museumData';
 import { Exhibit, ExhibitStatus, ZoneMode } from './types';
 import { GlobeExplorer } from './components/GlobeExplorer';
@@ -158,7 +158,7 @@ export default function App() {
           href="#explorer"
           className="text-lg sm:text-xl font-display font-bold tracking-tight text-white whitespace-nowrap shrink-0 flex items-center space-x-2"
         >
-          <span className="text-cyan-400">✦</span>
+          <Sparkles className="w-5 h-5 text-cyan-400 shrink-0" />
           <span>Abandoned but Not Forgotten</span>
         </a>
 
@@ -252,7 +252,7 @@ export default function App() {
                           <div className="text-[10px] text-slate-400 font-mono mt-0.5">{opt.tag}</div>
                         </div>
                         {fontTheme === opt.id && (
-                          <span className="text-cyan-400 text-sm font-bold">✓</span>
+                          <Check className="w-4 h-4 text-cyan-400 shrink-0" />
                         )}
                       </button>
                     ))}

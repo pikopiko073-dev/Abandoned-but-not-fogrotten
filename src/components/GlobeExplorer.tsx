@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { RotateCcw, ZoomIn, ZoomOut, MapPin, Crosshair, Play, Pause, Compass, Sparkles } from 'lucide-react';
+import { RotateCcw, ZoomIn, ZoomOut, MapPin, Crosshair, Play, Pause, Compass, Sparkles, Moon, Globe } from 'lucide-react';
 import { Exhibit, MuseumConfig } from '../types';
 import { StatusStamp } from './StatusStamp';
 
@@ -382,7 +382,11 @@ export const GlobeExplorer: React.FC<GlobeExplorerProps> = ({
         <div className="z-10 flex flex-wrap items-center justify-between gap-3 px-4 py-3 bg-[#0B0E17]/95 border-b border-slate-800 text-xs font-mono">
           <div className="flex flex-wrap items-center gap-2 text-slate-300">
             <span className="font-semibold text-white uppercase flex items-center gap-1.5">
-              <span>{planet === 'Moon' ? '🌙' : '♂'}</span>
+              {planet === 'Moon' ? (
+                <Moon className="w-3.5 h-3.5 text-slate-300 shrink-0" />
+              ) : (
+                <Globe className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+              )}
               <span>{planetConfig.label}</span>
             </span>
             <span aria-hidden="true" className="text-slate-600">·</span>

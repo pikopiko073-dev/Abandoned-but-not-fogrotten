@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Tag, Sparkles } from 'lucide-react';
 import { Exhibit, StoryStage } from '../types';
 
 interface StoryModeModalProps {
@@ -154,8 +155,9 @@ export const StoryModeModal: React.FC<StoryModeModalProps> = ({
                     STAGE {currentStage.stageNumber}: {currentStage.stageName}
                   </span>
                   {currentStage.visualTag && (
-                    <span className="px-2.5 py-0.5 text-[11px] font-mono text-zinc-400 bg-zinc-900 rounded border border-zinc-800">
-                      🏷️ {currentStage.visualTag}
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-[11px] font-mono text-zinc-400 bg-zinc-900 rounded border border-zinc-800">
+                      <Tag className="w-3 h-3 text-cyan-400 shrink-0" />
+                      <span>{currentStage.visualTag}</span>
                     </span>
                   )}
                 </div>
@@ -181,7 +183,7 @@ export const StoryModeModal: React.FC<StoryModeModalProps> = ({
               {/* Highlight / Takeaway Callout */}
               {currentStage.highlight && (
                 <div className="flex items-start space-x-3 p-4 rounded-xl bg-cyan-950/30 border border-cyan-800/40 text-cyan-200 text-sm font-sans">
-                  <span className="text-cyan-400 text-lg leading-none mt-0.5">✦</span>
+                  <Sparkles className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
                   <div>
                     <span className="font-semibold text-cyan-300 uppercase tracking-wider text-xs block mb-0.5 font-mono">
                       Key Takeaway

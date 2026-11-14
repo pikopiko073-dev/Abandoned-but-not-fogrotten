@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Cpu, Eye, Move, Compass, Zap, Microscope, Rocket } from 'lucide-react';
 import { EVOLUTION_ERAS } from '../data/storyData';
 import { EvolutionEra } from '../types';
 
@@ -80,7 +81,7 @@ export const ThenVsNowSection: React.FC = () => {
           {/* Computing */}
           <div className="p-5 rounded-xl bg-zinc-900/70 border border-zinc-800/80 space-y-2">
             <div className="flex items-center space-x-2 text-xs font-mono font-semibold text-cyan-400 uppercase tracking-wider">
-              <span>🧠</span>
+              <Cpu className="w-4 h-4 shrink-0" />
               <span>Computing & Memory</span>
             </div>
             <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed font-sans">
@@ -91,7 +92,7 @@ export const ThenVsNowSection: React.FC = () => {
           {/* Cameras */}
           <div className="p-5 rounded-xl bg-zinc-900/70 border border-zinc-800/80 space-y-2">
             <div className="flex items-center space-x-2 text-xs font-mono font-semibold text-sky-400 uppercase tracking-wider">
-              <span>👁️</span>
+              <Eye className="w-4 h-4 shrink-0" />
               <span>Cameras & Optics</span>
             </div>
             <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed font-sans">
@@ -102,7 +103,7 @@ export const ThenVsNowSection: React.FC = () => {
           {/* Mobility */}
           <div className="p-5 rounded-xl bg-zinc-900/70 border border-zinc-800/80 space-y-2">
             <div className="flex items-center space-x-2 text-xs font-mono font-semibold text-emerald-400 uppercase tracking-wider">
-              <span>🦿</span>
+              <Move className="w-4 h-4 shrink-0" />
               <span>Mobility & Locomotion</span>
             </div>
             <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed font-sans">
@@ -113,7 +114,7 @@ export const ThenVsNowSection: React.FC = () => {
           {/* Autonomy */}
           <div className="p-5 rounded-xl bg-zinc-900/70 border border-zinc-800/80 space-y-2">
             <div className="flex items-center space-x-2 text-xs font-mono font-semibold text-indigo-400 uppercase tracking-wider">
-              <span>🧭</span>
+              <Compass className="w-4 h-4 shrink-0" />
               <span>Onboard Autonomy</span>
             </div>
             <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed font-sans">
@@ -124,7 +125,7 @@ export const ThenVsNowSection: React.FC = () => {
           {/* Power */}
           <div className="p-5 rounded-xl bg-zinc-900/70 border border-zinc-800/80 space-y-2">
             <div className="flex items-center space-x-2 text-xs font-mono font-semibold text-amber-400 uppercase tracking-wider">
-              <span>⚡</span>
+              <Zap className="w-4 h-4 shrink-0" />
               <span>Power Architecture</span>
             </div>
             <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed font-sans">
@@ -135,7 +136,7 @@ export const ThenVsNowSection: React.FC = () => {
           {/* Instruments */}
           <div className="p-5 rounded-xl bg-zinc-900/70 border border-zinc-800/80 space-y-2">
             <div className="flex items-center space-x-2 text-xs font-mono font-semibold text-rose-400 uppercase tracking-wider">
-              <span>🔬</span>
+              <Microscope className="w-4 h-4 shrink-0" />
               <span>Science Instruments</span>
             </div>
             <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed font-sans">
@@ -147,7 +148,7 @@ export const ThenVsNowSection: React.FC = () => {
         {/* Quick Did You Know Callout */}
         <div className="px-6 sm:px-8 pb-6">
           <div className="p-4 rounded-xl bg-cyan-950/20 border border-cyan-800/40 text-xs font-sans text-cyan-200/90 flex items-start space-x-2.5">
-            <span className="text-cyan-400 text-sm mt-0.5">🚀</span>
+            <Rocket className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
             <div>
               <span className="font-mono font-semibold text-cyan-300 uppercase tracking-wider text-[10px] block">
                 Aerospace Leap Fact

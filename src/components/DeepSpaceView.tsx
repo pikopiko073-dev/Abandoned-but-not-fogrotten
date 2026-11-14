@@ -1,5 +1,5 @@
 import React from 'react';
-import { Compass, ArrowUpRight, Radio } from 'lucide-react';
+import { Compass, ArrowUpRight, Radio, MoveHorizontal } from 'lucide-react';
 import { Exhibit } from '../types';
 import { StatusStamp } from './StatusStamp';
 
@@ -32,7 +32,10 @@ export const DeepSpaceView: React.FC<DeepSpaceViewProps> = ({
           </div>
           <p className="text-xs font-mono text-slate-400">
             Select any spacecraft node or editorial row to open its full exhibit dossier
-            <span className="sm:hidden text-cyan-400 block mt-0.5">↔ Swipe diagram horizontally to view distance scale</span>
+            <span className="sm:hidden text-cyan-400 flex items-center gap-1 mt-0.5">
+              <MoveHorizontal className="w-3.5 h-3.5 shrink-0" />
+              <span>Swipe diagram horizontally to view distance scale</span>
+            </span>
           </p>
         </div>
 

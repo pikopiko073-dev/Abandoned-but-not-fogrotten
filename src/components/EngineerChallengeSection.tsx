@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AlertTriangle, RotateCcw } from 'lucide-react';
 import { ENGINEER_SCENARIOS } from '../data/storyData';
 import { EngineerScenario, EngineerChoice } from '../types';
 
@@ -87,8 +88,9 @@ export const EngineerChallengeSection: React.FC = () => {
             <p className="text-sm sm:text-base text-zinc-200 leading-relaxed font-medium">
               {scenario.problem}
             </p>
-            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed italic border-t border-zinc-800/80 pt-2.5">
-              ⚠️ Context: {scenario.context}
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed italic border-t border-zinc-800/80 pt-2.5 flex items-center gap-1.5">
+              <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span>Context: {scenario.context}</span>
             </p>
           </div>
 
@@ -169,9 +171,10 @@ export const EngineerChallengeSection: React.FC = () => {
               <div className="flex justify-end pt-1">
                 <button
                   onClick={() => setSelectedChoiceId(null)}
-                  className="px-4 py-1.5 rounded-lg text-xs font-mono text-zinc-400 hover:text-white bg-zinc-800 hover:bg-zinc-700 transition-colors"
+                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-mono text-zinc-400 hover:text-white bg-zinc-800 hover:bg-zinc-700 transition-colors"
                 >
-                  Test Another Option ↻
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>Test Another Option</span>
                 </button>
               </div>
             </div>

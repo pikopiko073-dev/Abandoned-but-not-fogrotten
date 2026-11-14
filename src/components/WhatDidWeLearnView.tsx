@@ -1,4 +1,5 @@
 import React from 'react';
+import { BookOpen } from 'lucide-react';
 import { ScientificFinding } from '../types';
 
 interface WhatDidWeLearnViewProps {
@@ -86,7 +87,7 @@ export const WhatDidWeLearnView: React.FC<WhatDidWeLearnViewProps> = ({
             {/* Scientific Term Explained (Student Glossary) */}
             {item.scientificTermExplained && (
               <div className="sm:ml-10 p-3 rounded-xl bg-amber-950/20 border border-amber-800/30 flex items-start space-x-2.5 text-xs text-amber-200/90">
-                <span className="text-amber-400 text-sm mt-0.5">📖</span>
+                <BookOpen className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                 <div>
                   <span className="font-mono font-semibold text-amber-300 uppercase tracking-wider text-[10px] block">
                     Student Science Glossary
