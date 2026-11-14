@@ -77,7 +77,7 @@ This project utilizes public scientific data, landing coordinates, and mission t
 
 ```bash
 # Clone repository
-git clone https://github.com/Zhiger5643266/Abandoned-but-not-fogrotten.git
+git clone https://github.com/pikopiko073-dev/Abandoned-but-not-fogrotten.git
 cd Abandoned-but-not-fogrotten
 
 # Install dependencies
