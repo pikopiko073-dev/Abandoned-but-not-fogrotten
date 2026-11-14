@@ -439,6 +439,13 @@ export default function App() {
                         alt={exhibit.name}
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          if (!target.dataset.fallback) {
+                            target.dataset.fallback = 'true';
+                            target.src = CONFIG.placeholderImageBase;
+                          }
+                        }}
                       />
                     </div>
 

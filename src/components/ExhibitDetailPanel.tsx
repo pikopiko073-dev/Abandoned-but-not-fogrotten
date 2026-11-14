@@ -13,6 +13,7 @@ import {
   Flag,
 } from 'lucide-react';
 import { Exhibit } from '../types';
+import { CONFIG } from '../data/museumData';
 import { StatusStamp } from './StatusStamp';
 import { InsideTheMachine } from './InsideTheMachine';
 import { MissionTimelineView } from './MissionTimelineView';
@@ -257,9 +258,16 @@ export const ExhibitDetailPanel: React.FC<ExhibitDetailPanelProps> = ({
                 <div className="relative aspect-16/10 w-full bg-zinc-800 flex items-center justify-center">
                   <img
                     src={exhibit.image}
-                    alt={`${exhibit.name} archival placeholder`}
+                    alt={`${exhibit.name} archival photograph`}
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (!target.dataset.fallback) {
+                        target.dataset.fallback = 'true';
+                        target.src = CONFIG.placeholderImageBase;
+                      }
+                    }}
                   />
                 </div>
                 <figcaption className="px-3.5 py-2 text-xs font-mono text-slate-400 bg-[#07090E] border-t border-slate-800 flex items-center justify-between">

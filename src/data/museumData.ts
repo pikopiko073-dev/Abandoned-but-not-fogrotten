@@ -486,6 +486,18 @@ export const getTextureUrl = (filename: string): string => {
   return `${cleanBase}textures/${filename}`;
 };
 
+/**
+ * Resolves static exhibit photo paths correctly across local dev, Vite base, Vercel, and GitHub Pages.
+ */
+export const getExhibitImageUrl = (filename: string): string => {
+  const meta = import.meta as unknown as { env?: { BASE_URL?: string } };
+  const base = typeof meta !== 'undefined' && meta.env?.BASE_URL
+    ? meta.env.BASE_URL
+    : '/';
+  const cleanBase = base.endsWith('/') ? base : `${base}/`;
+  return `${cleanBase}images/exhibits/${filename}`;
+};
+
 export const CONFIG: MuseumConfig = {
   // Exact pinned version of globe.gl from jsDelivr CDN
   globeCdnUrl: 'https://cdn.jsdelivr.net/npm/globe.gl@2.35.1/dist/globe.gl.min.js',
@@ -541,7 +553,7 @@ const RAW_EXHIBITS: Exhibit[] = [
     planned: '21.6 hours on surface',
     actual: '21.6 hours active (resting intact since 1969)',
     source: 'https://science.nasa.gov/mission/apollo-11/',
-    image: createGrayHardwarePlaceholder('Apollo 11 "Eagle" Descent Stage', '1969', 'Moon'),
+    image: getExhibitImageUrl('apollo-11-eagle.jpg'),
     landingSite: 'Mare Tranquillitatis (Sea of Tranquility)',
     massKg: '2,033 kg (dry descent stage)',
   },
@@ -562,7 +574,7 @@ const RAW_EXHIBITS: Exhibit[] = [
     planned: '10 years of measurements',
     actual: '55+ years (still reflecting lasers today)',
     source: 'https://science.nasa.gov/mission/apollo-11/',
-    image: createGrayHardwarePlaceholder('Apollo 11 Laser Retroreflector', '1969–Present', 'Moon'),
+    image: getExhibitImageUrl('apollo-11-lrrr.jpg'),
     landingSite: 'Mare Tranquillitatis (Sea of Tranquility)',
     massKg: '23.6 kg',
     plannedVsRealityFeatured: true,
@@ -586,7 +598,7 @@ const RAW_EXHIBITS: Exhibit[] = [
     planned: '14 Earth days (1 lunar day)',
     actual: '14 days active (visited by astronauts in 1969)',
     source: 'https://science.nasa.gov/mission/surveyor-3/',
-    image: createGrayHardwarePlaceholder('Surveyor 3 Lander', '1967–1969', 'Moon'),
+    image: getExhibitImageUrl('surveyor-3.jpg'),
     landingSite: 'Oceanus Procellarum (Ocean of Storms)',
     massKg: '296 kg (landed mass)',
   },
@@ -607,7 +619,7 @@ const RAW_EXHIBITS: Exhibit[] = [
     planned: '3 lunar surface drives (~3 hours total)',
     actual: '3 hours 2 minutes driven (27.9 km)',
     source: 'https://science.nasa.gov/mission/apollo-15/',
-    image: createGrayHardwarePlaceholder('Apollo 15 Lunar Roving Vehicle', '1971', 'Moon'),
+    image: getExhibitImageUrl('apollo-15-rover.jpg'),
     landingSite: 'Hadley–Apennine Region',
     massKg: '210 kg (empty weight on Earth)',
   },
@@ -628,7 +640,7 @@ const RAW_EXHIBITS: Exhibit[] = [
     planned: '100 days of science',
     actual: '128 days of science (deliberate far-side impact)',
     source: 'https://science.nasa.gov/mission/ladee/',
-    image: createGrayHardwarePlaceholder('LADEE Lunar Orbiter', '2013–2014', 'Moon'),
+    image: getExhibitImageUrl('ladee.jpg'),
     landingSite: 'Sundman V Crater Rim (Lunar Far Side)',
     massKg: '248.2 kg (dry mass)',
   },
@@ -651,7 +663,7 @@ const RAW_EXHIBITS: Exhibit[] = [
     planned: '5 flights',
     actual: '72 flights',
     source: 'https://science.nasa.gov/mission/mars-2020-perseverance/ingenuity-mars-helicopter/',
-    image: createGrayHardwarePlaceholder('Ingenuity Mars Helicopter', '2021–2024', 'Mars'),
+    image: getExhibitImageUrl('ingenuity.jpg'),
     landingSite: 'Jezero Crater / Valinor Hills',
     massKg: '1.8 kg',
     plannedVsRealityFeatured: true,
@@ -675,7 +687,7 @@ const RAW_EXHIBITS: Exhibit[] = [
     planned: '90 days',
     actual: 'about 14 years',
     source: 'https://science.nasa.gov/mission/mer-opportunity/',
-    image: createGrayHardwarePlaceholder('Opportunity Rover (MER-B)', '2004–2018', 'Mars'),
+    image: getExhibitImageUrl('opportunity.jpg'),
     landingSite: 'Meridiani Planum / Perseverance Valley',
     massKg: '185 kg',
     plannedVsRealityFeatured: true,
@@ -699,7 +711,7 @@ const RAW_EXHIBITS: Exhibit[] = [
     planned: '2 years',
     actual: '12+ years (still climbing Mount Sharp)',
     source: 'https://science.nasa.gov/mission/msl-curiosity/',
-    image: createGrayHardwarePlaceholder('Curiosity Rover (MSL)', '2012–Present', 'Mars'),
+    image: getExhibitImageUrl('curiosity.jpg'),
     landingSite: 'Gale Crater / Aeolis Mons (Mount Sharp)',
     massKg: '899 kg',
     plannedVsRealityFeatured: true,
@@ -723,7 +735,7 @@ const RAW_EXHIBITS: Exhibit[] = [
     planned: '2 years',
     actual: '4+ years (actively collecting samples)',
     source: 'https://science.nasa.gov/mission/mars-2020-perseverance/',
-    image: createGrayHardwarePlaceholder('Perseverance Rover', '2021–Present', 'Mars'),
+    image: getExhibitImageUrl('perseverance.jpg'),
     landingSite: 'Jezero Crater River Delta',
     massKg: '1,025 kg',
   },
@@ -744,7 +756,7 @@ const RAW_EXHIBITS: Exhibit[] = [
     planned: '7 days',
     actual: '83 days',
     source: 'https://science.nasa.gov/mission/mars-pathfinder/',
-    image: createGrayHardwarePlaceholder('Sojourner Rover', '1997', 'Mars'),
+    image: getExhibitImageUrl('sojourner.jpg'),
     landingSite: 'Ares Vallis (Carl Sagan Memorial Station)',
     massKg: '10.6 kg',
     plannedVsRealityFeatured: true,
@@ -768,7 +780,7 @@ const RAW_EXHIBITS: Exhibit[] = [
     planned: '2 years',
     actual: '4 years',
     source: 'https://science.nasa.gov/mission/insight/',
-    image: createGrayHardwarePlaceholder('InSight Mars Lander', '2018–2022', 'Mars'),
+    image: getExhibitImageUrl('insight.jpg'),
     landingSite: 'Elysium Planitia',
     massKg: '358 kg',
   },
@@ -791,7 +803,7 @@ const RAW_EXHIBITS: Exhibit[] = [
     planned: '5 years (Jupiter & Saturn flybys)',
     actual: '47+ years (still communicating from interstellar space)',
     source: 'https://science.nasa.gov/mission/voyager/voyager-1/',
-    image: createGrayHardwarePlaceholder('Voyager 1 Interstellar Probe', '1977–Present', 'Deep Space'),
+    image: getExhibitImageUrl('voyager-1.png'),
     distanceFromEarth: '24.6 billion km (164.5 AU)',
     distanceAu: 164.5,
     landingSite: 'Interstellar Space (Constellation Ophiuchus direction)',
@@ -817,7 +829,7 @@ const RAW_EXHIBITS: Exhibit[] = [
     planned: '21 months',
     actual: '30 years and 10 months of radio contact',
     source: 'https://science.nasa.gov/mission/pioneer-10/',
-    image: createGrayHardwarePlaceholder('Pioneer 10 Deep Space Probe', '1972–2003', 'Deep Space'),
+    image: getExhibitImageUrl('pioneer.jpg'),
     distanceFromEarth: '20.1 billion km (134.4 AU)',
     distanceAu: 134.4,
     landingSite: 'Outer Heliosphere / Heading toward Aldebaran (Taurus)',
@@ -840,7 +852,7 @@ const RAW_EXHIBITS: Exhibit[] = [
     planned: '4 years in Saturn orbit',
     actual: '13 years at Saturn (20 years total in space)',
     source: 'https://science.nasa.gov/mission/cassini/',
-    image: createGrayHardwarePlaceholder('Cassini Saturn Orbiter', '1997–2017', 'Deep Space'),
+    image: getExhibitImageUrl('cassini.jpg'),
     distanceFromEarth: '1.43 billion km (9.5 AU — Saturn Atmosphere)',
     distanceAu: 9.5,
     landingSite: 'Vaporized in Saturn’s Upper Atmosphere (9.4° S, 53° W)',
