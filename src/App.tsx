@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import { Compass, Sparkles, Orbit, Layers, Rocket, ShieldAlert, Cpu } from 'lucide-react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import { Compass, Sparkles, Orbit, Layers, Rocket, ShieldAlert, Cpu, Type } from 'lucide-react';
 import { CONFIG as MUSEUM_CONFIG, EXHIBITS as MUSEUM_EXHIBITS } from './data/museumData';
 import { Exhibit, ExhibitStatus, ZoneMode } from './types';
 import { GlobeExplorer } from './components/GlobeExplorer';
@@ -11,6 +11,22 @@ import { StatusStamp } from './components/StatusStamp';
 import { StoryModeModal } from './components/StoryModeModal';
 import { EngineerChallengeSection } from './components/EngineerChallengeSection';
 import { ThenVsNowSection } from './components/ThenVsNowSection';
+
+type FontTheme = 'inter' | 'roboto' | 'opensans' | 'system' | 'jakarta';
+
+interface FontOptionItem {
+  id: FontTheme;
+  label: string;
+  tag: string;
+}
+
+const FONT_OPTIONS: FontOptionItem[] = [
+  { id: 'inter', label: 'Inter (Как на образце)', tag: 'Natural / Clean' },
+  { id: 'roboto', label: 'Roboto', tag: 'Google Sans' },
+  { id: 'opensans', label: 'Open Sans', tag: 'Humanist' },
+  { id: 'system', label: 'System UI', tag: 'Native OS' },
+  { id: 'jakarta', label: 'Plus Jakarta Sans', tag: 'Geometric' },
+];
 
 // Re-export central CONFIG and EXHIBITS at the top of App.tsx for direct inspection & modification
 export const CONFIG = MUSEUM_CONFIG;
@@ -24,6 +40,33 @@ export default function App() {
   // Story Mode Modal State
   const [isStoryModalOpen, setIsStoryModalOpen] = useState<boolean>(false);
   const [storyModalExhibit, setStoryModalExhibit] = useState<Exhibit | null>(null);
+
+  // Active Font Theme: default to 'inter' matching user's requested clean sample
+  const [fontTheme, setFontTheme] = useState<FontTheme>(() => {
+    try {
+      return (localStorage.getItem('preferred-font-theme') as FontTheme) || 'inter';
+    } catch {
+      return 'inter';
+    }
+  });
+  const [isFontMenuOpen, setIsFontMenuOpen] = useState<boolean>(false);
+
+  // Synchronize active font theme with document body class
+  useEffect(() => {
+    document.body.classList.remove(
+      'font-theme-inter',
+      'font-theme-roboto',
+      'font-theme-opensans',
+      'font-theme-system',
+      'font-theme-jakarta'
+    );
+    document.body.classList.add(`font-theme-${fontTheme}`);
+    try {
+      localStorage.setItem('preferred-font-theme', fontTheme);
+    } catch {
+      // Ignore storage errors in restrictive environments
+    }
+  }, [fontTheme]);
 
   // Optional catalog filter for browsing all exhibits below the explorer
   const [catalogStatusFilter, setCatalogStatusFilter] = useState<'ALL' | ExhibitStatus>('ALL');
@@ -164,6 +207,61 @@ export default function App() {
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2.5 shrink-0">
+          {/* Typography Font Selector */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setIsFontMenuOpen((prev) => !prev)}
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-mono font-medium text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-700 rounded-lg transition-colors whitespace-nowrap shrink-0"
+              aria-label="Change museum typography"
+              title="Change typography font"
+            >
+              <Type className="w-3.5 h-3.5 text-cyan-400" />
+              <span className="hidden sm:inline">Шрифт:</span>
+              <span className="font-semibold text-slate-100 capitalize">{fontTheme}</span>
+            </button>
+
+            {isFontMenuOpen && (
+              <>
+                <div
+                  className="fixed inset-0 z-40"
+                  onClick={() => setIsFontMenuOpen(false)}
+                />
+                <div className="absolute right-0 mt-2 w-60 p-1.5 bg-[#0B0E17] border border-slate-700 rounded-xl shadow-2xl z-50 text-xs">
+                  <div className="px-2.5 py-1.5 text-[11px] font-mono text-slate-400 border-b border-slate-800 flex items-center justify-between">
+                    <span>НАСТРОЙКА ШРИФТА</span>
+                    <span className="text-cyan-400">AA</span>
+                  </div>
+                  <div className="py-1 space-y-0.5">
+                    {FONT_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        onClick={() => {
+                          setFontTheme(opt.id);
+                          setIsFontMenuOpen(false);
+                        }}
+                        className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-left transition-colors ${
+                          fontTheme === opt.id
+                            ? 'bg-cyan-500/15 text-cyan-300 font-semibold border border-cyan-500/30'
+                            : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
+                        }`}
+                      >
+                        <div>
+                          <div className="text-sm font-medium">{opt.label}</div>
+                          <div className="text-[10px] text-slate-400 font-mono mt-0.5">{opt.tag}</div>
+                        </div>
+                        {fontTheme === opt.id && (
+                          <span className="text-cyan-400 text-sm font-bold">✓</span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+
           <button
             type="button"
             onClick={handleHeroStartStory}
