@@ -1,6 +1,72 @@
 export type ZoneMode = 'Moon' | 'Mars' | 'Deep Space';
 
-export type ExhibitStatus = 'STILL WORKING' | 'SILENT' | 'ENDED ON PURPOSE';
+export type ExhibitStatus =
+  | 'STILL WORKING'
+  | 'SILENT'
+  | 'ENDED ON PURPOSE'
+  | 'STILL ACTIVE'
+  | 'MISSION COMPLETE'
+  | 'LOST CONTACT'
+  | 'ENDED AS PLANNED'
+  | 'NO LONGER OPERATIONAL';
+
+export interface StoryStage {
+  stageNumber: number;
+  stageName:
+    | 'EARTH'
+    | 'LAUNCH'
+    | 'JOURNEY'
+    | 'LANDING'
+    | 'FIRST SIGNAL'
+    | 'MISSION'
+    | 'DISCOVERY'
+    | 'CHALLENGE'
+    | 'LAST SIGNAL'
+    | 'LEGACY';
+  title: string;
+  dateOrTime: string;
+  text: string;
+  highlight?: string;
+  visualTag?: string;
+}
+
+export interface TimelineMilestone {
+  id: string;
+  year: string;
+  date?: string;
+  title: string;
+  summary: string;
+  category: 'launch' | 'landing' | 'discovery' | 'milestone' | 'extension' | 'conclusion';
+  impact: string;
+}
+
+export interface HardwareComponent {
+  id: string;
+  name: string;
+  role: 'Eyes & Optics' | 'Power & Heart' | 'Mobility & Legs' | 'Voice to Earth' | 'Hands & Instruments' | 'Brain & Memory';
+  analogy: string;
+  simpleExplanation: string;
+  whyItMatters: string;
+  specSnippet?: string;
+}
+
+export interface ScientificFinding {
+  id: string;
+  title: string;
+  whatWeFound: string;
+  whyItMatters: string;
+  scientificTermExplained?: string;
+}
+
+export interface MissionEndRecord {
+  endDate: string;
+  statusLabel: string;
+  whyItEnded: string;
+  whatHappened: string;
+  wasPlanned: boolean;
+  currentState: string;
+  finalMessageOrTelemetry?: string;
+}
 
 export interface Exhibit {
   id: string;
@@ -26,6 +92,13 @@ export interface Exhibit {
   plannedVsRealityFeatured?: boolean;
   plannedRatioPercent?: number;
   multiplierText?: string;
+  // Deep Storytelling & Educational Extensions
+  tagline?: string;
+  storyStages?: StoryStage[];
+  timelineMilestones?: TimelineMilestone[];
+  hardwareComponents?: HardwareComponent[];
+  scientificFindings?: ScientificFinding[];
+  missionEndDetails?: MissionEndRecord;
 }
 
 export interface PlanetTextureConfig {
@@ -57,4 +130,40 @@ export interface QuizQuestion {
   options: string[];
   correctAnswer: string;
   zone: ZoneMode;
+}
+
+export interface EngineerChoice {
+  id: 'A' | 'B' | 'C';
+  label: string;
+  description: string;
+  consequence: string;
+  isRealNasaChoice: boolean;
+}
+
+export interface EngineerScenario {
+  id: string;
+  missionName: string;
+  missionId: string;
+  missionYear: string;
+  zone: ZoneMode;
+  title: string;
+  problem: string;
+  context: string;
+  options: EngineerChoice[];
+  realNasaDecision: string;
+  engineeringLogic: string;
+}
+
+export interface EvolutionEra {
+  decade: string;
+  title: string;
+  representativeMachine: string;
+  years: string;
+  tagline: string;
+  computing: string;
+  cameras: string;
+  mobility: string;
+  autonomy: string;
+  power: string;
+  instruments: string;
 }

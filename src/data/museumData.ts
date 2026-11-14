@@ -1,4 +1,11 @@
 import { Exhibit, MuseumConfig, QuizQuestion } from '../types';
+import {
+  getStoryStagesForExhibit,
+  getTimelineForExhibit,
+  getHardwareForExhibit,
+  getScientificFindingsForExhibit,
+  getMissionEndRecordForExhibit,
+} from './storyData';
 
 /**
  * Generates an accurate, highly detailed equirectangular Moon color texture (SVG data URI).
@@ -500,7 +507,7 @@ export const CONFIG: MuseumConfig = {
 // ============================================================================
 // 2. CENTRAL EXHIBIT DATA ARRAY (Single source of truth for the entire site)
 // ============================================================================
-export const EXHIBITS: Exhibit[] = [
+const RAW_EXHIBITS: Exhibit[] = [
   // ------------------------------ MOON EXHIBITS ------------------------------
   {
     id: 'apollo-11-eagle',
@@ -825,6 +832,24 @@ export const EXHIBITS: Exhibit[] = [
     massKg: '2,125 kg (dry orbiter mass)',
   },
 ];
+
+export const EXHIBITS: Exhibit[] = RAW_EXHIBITS.map((e) => ({
+  ...e,
+  storyStages: getStoryStagesForExhibit(
+    e.id,
+    e.name,
+    e.zone,
+    e.story,
+    e.learned,
+    e.hardware,
+    e.planned,
+    e.actual
+  ),
+  timelineMilestones: getTimelineForExhibit(e),
+  hardwareComponents: getHardwareForExhibit(e),
+  scientificFindings: getScientificFindingsForExhibit(e),
+  missionEndDetails: getMissionEndRecordForExhibit(e),
+}));
 
 // ============================================================================
 // 3. QUIZ GENERATOR ("Guess the machine" — built from central EXHIBITS array)

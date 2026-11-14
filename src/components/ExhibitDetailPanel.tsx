@@ -1,30 +1,53 @@
-import React, { useEffect, useRef } from 'react';
-import { X, ExternalLink, Compass, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  X,
+  ExternalLink,
+  Compass,
+  ChevronLeft,
+  ChevronRight,
+  BookOpen,
+  Cpu,
+  Clock,
+  Sparkles,
+  FlaskConical,
+  Flag,
+} from 'lucide-react';
 import { Exhibit } from '../types';
 import { StatusStamp } from './StatusStamp';
+import { InsideTheMachine } from './InsideTheMachine';
+import { MissionTimelineView } from './MissionTimelineView';
+import { WhatDidWeLearnView } from './WhatDidWeLearnView';
+import { MissionEndView } from './MissionEndView';
 
 interface ExhibitDetailPanelProps {
   exhibit: Exhibit | null;
   onClose: () => void;
   onSelectNeighbor?: (direction: 'prev' | 'next') => void;
+  onStartStory?: (exhibit: Exhibit) => void;
   totalInZone?: number;
   currentIndexInZone?: number;
 }
+
+type DetailTab = 'overview' | 'hardware' | 'timeline' | 'science' | 'end';
 
 export const ExhibitDetailPanel: React.FC<ExhibitDetailPanelProps> = ({
   exhibit,
   onClose,
   onSelectNeighbor,
+  onStartStory,
   totalInZone = 0,
   currentIndexInZone = 0,
 }) => {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const [activeTab, setActiveTab] = useState<DetailTab>('overview');
 
+  // Reset to overview tab when exhibit changes
   useEffect(() => {
     if (exhibit) {
+      setActiveTab('overview');
       closeButtonRef.current?.focus();
     }
-  }, [exhibit]);
+  }, [exhibit?.id]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -59,10 +82,10 @@ export const ExhibitDetailPanel: React.FC<ExhibitDetailPanelProps> = ({
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      {/* Full-screen on mobile (w-full h-full), side panel on desktop (md:w-[480px] lg:w-[540px]) */}
-      <aside className="relative flex flex-col w-full h-full md:w-[480px] lg:w-[540px] bg-[#0B0E17] border-l border-slate-800 text-slate-100 shadow-2xl overflow-hidden">
+      {/* Responsive drawer */}
+      <aside className="relative flex flex-col w-full h-full md:w-[580px] lg:w-[680px] bg-[#0B0E17] border-l border-slate-800 text-slate-100 shadow-2xl overflow-hidden">
         {/* Top Museum Accession Bar */}
-        <div className="flex items-center justify-between gap-4 px-5 py-4 border-b border-slate-800 bg-[#07090E]">
+        <div className="flex items-center justify-between gap-4 px-5 py-4 border-b border-slate-800 bg-[#07090E] shrink-0">
           <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
             <span>EXHIBIT ARCHIVE</span>
             <span aria-hidden="true">·</span>
@@ -114,161 +137,287 @@ export const ExhibitDetailPanel: React.FC<ExhibitDetailPanelProps> = ({
           </div>
         </div>
 
-        {/* Scrollable Content Body */}
-        <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6">
-          {/* Header: Status Stamp, Name, and Active Years */}
-          <div className="space-y-3">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <StatusStamp status={exhibit.status} />
-              <span className="text-sm font-mono text-slate-300 tabular-nums">
-                Years: <strong className="text-white">{exhibit.years}</strong>
-              </span>
-            </div>
-
-            <h2
-              id="exhibit-detail-title"
-              className="text-2xl sm:text-3xl font-display font-semibold tracking-tight text-white leading-tight"
-            >
-              {exhibit.name}
-            </h2>
-
-            <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-400">
-              <Compass className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-              {exhibit.zone === 'Deep Space' && exhibit.distanceFromEarth ? (
-                <span>Distance from Earth: {exhibit.distanceFromEarth}</span>
-              ) : (
-                <span className="tabular-nums">{formatCoord(exhibit.lat, exhibit.lng)}</span>
-              )}
-              {exhibit.landingSite && (
-                <>
-                  <span aria-hidden="true">·</span>
-                  <span className="text-slate-300">{exhibit.landingSite}</span>
-                </>
-              )}
-            </div>
+        {/* Hero Machine Banner with Story Mode Trigger */}
+        <div className="px-5 pt-5 pb-3 border-b border-slate-800/80 bg-gradient-to-b from-slate-900/40 to-transparent space-y-3 shrink-0">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <StatusStamp status={exhibit.status} />
+            <span className="text-xs font-mono text-slate-400 tabular-nums">
+              Years: <strong className="text-white">{exhibit.years}</strong>
+            </span>
           </div>
 
-          {/* Gray Placeholder Exhibit Photo */}
-          <figure className="border border-slate-800 rounded bg-zinc-900 overflow-hidden">
-            <div className="relative aspect-16/10 w-full bg-zinc-800 flex items-center justify-center">
-              <img
-                src={exhibit.image}
-                alt={`${exhibit.name} archival placeholder`}
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover"
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h2
+                id="exhibit-detail-title"
+                className="text-xl sm:text-2xl font-bold tracking-tight text-white leading-tight"
+              >
+                {exhibit.name}
+              </h2>
+              <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-400 mt-1">
+                <Compass className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                {exhibit.zone === 'Deep Space' && exhibit.distanceFromEarth ? (
+                  <span>{exhibit.distanceFromEarth}</span>
+                ) : (
+                  <span className="tabular-nums">{formatCoord(exhibit.lat, exhibit.lng)}</span>
+                )}
+                {exhibit.landingSite && (
+                  <>
+                    <span aria-hidden="true">·</span>
+                    <span className="text-slate-300">{exhibit.landingSite}</span>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Launch Full 10-Stage Story Mode */}
+            {onStartStory && (
+              <button
+                type="button"
+                onClick={() => onStartStory(exhibit)}
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-md shadow-cyan-500/20 shrink-0"
+                title="Launch 10-stage sequential storytelling journey"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>START THE STORY</span>
+              </button>
+            )}
+          </div>
+
+          {/* Interactive Navigation Tabs */}
+          <div className="flex items-center space-x-1 overflow-x-auto pt-2 no-scrollbar">
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-colors whitespace-nowrap ${
+                activeTab === 'overview'
+                  ? 'bg-slate-800 text-white font-semibold border border-slate-700'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>Dossier</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('hardware')}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-colors whitespace-nowrap ${
+                activeTab === 'hardware'
+                  ? 'bg-emerald-950/60 text-emerald-300 font-semibold border border-emerald-800'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+              }`}
+            >
+              <Cpu className="w-3.5 h-3.5" />
+              <span>Inside Hardware</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('timeline')}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-colors whitespace-nowrap ${
+                activeTab === 'timeline'
+                  ? 'bg-cyan-950/60 text-cyan-300 font-semibold border border-cyan-800'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+              }`}
+            >
+              <Clock className="w-3.5 h-3.5" />
+              <span>Timeline</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('science')}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-colors whitespace-nowrap ${
+                activeTab === 'science'
+                  ? 'bg-purple-950/60 text-purple-300 font-semibold border border-purple-800'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+              }`}
+            >
+              <FlaskConical className="w-3.5 h-3.5" />
+              <span>Discoveries</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('end')}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-colors whitespace-nowrap ${
+                activeTab === 'end'
+                  ? 'bg-amber-950/60 text-amber-300 font-semibold border border-amber-800'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+              }`}
+            >
+              <Flag className="w-3.5 h-3.5" />
+              <span>Mission End</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Scrollable Content Body */}
+        <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6">
+          {activeTab === 'overview' && (
+            <div className="space-y-6 animate-fade-in">
+              {/* Archival Photo */}
+              <figure className="border border-slate-800 rounded bg-zinc-900 overflow-hidden">
+                <div className="relative aspect-16/10 w-full bg-zinc-800 flex items-center justify-center">
+                  <img
+                    src={exhibit.image}
+                    alt={`${exhibit.name} archival placeholder`}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <figcaption className="px-3.5 py-2 text-xs font-mono text-slate-400 bg-[#07090E] border-t border-slate-800 flex items-center justify-between">
+                  <span>Archival Plate · {exhibit.id}</span>
+                  <span>{exhibit.years}</span>
+                </figcaption>
+              </figure>
+
+              {/* Story */}
+              <section className="space-y-2 pt-1">
+                <h3 className="text-sm font-mono uppercase tracking-wider text-amber-400 font-semibold">
+                  The Story
+                </h3>
+                <p className="text-[15px] leading-relaxed text-slate-200 font-sans">
+                  {exhibit.story}
+                </p>
+              </section>
+
+              {/* What we learned */}
+              <section className="space-y-2 pt-3 border-t border-slate-800/80">
+                <h3 className="text-sm font-mono uppercase tracking-wider text-cyan-400 font-semibold">
+                  What we learned
+                </h3>
+                <p className="text-[15px] leading-relaxed text-slate-200 font-sans">
+                  {exhibit.learned}
+                </p>
+              </section>
+
+              {/* Hardware in simple words */}
+              <section className="space-y-2 pt-3 border-t border-slate-800/80">
+                <h3 className="text-sm font-mono uppercase tracking-wider text-emerald-400 font-semibold">
+                  Hardware in simple words
+                </h3>
+                <p className="text-[15px] leading-relaxed text-slate-200 font-sans">
+                  {exhibit.hardware}
+                </p>
+              </section>
+
+              {/* Technical Specifications (Mono Data Table) */}
+              <section className="space-y-2.5 pt-3 border-t border-slate-800/80">
+                <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">
+                  Technical Specifications (Mono Data Table)
+                </h3>
+                <div className="border border-slate-800 rounded overflow-hidden bg-[#07090E]">
+                  <table className="mono-table w-full text-left text-xs font-mono tabular-nums border-collapse">
+                    <tbody className="divide-y divide-slate-800/90">
+                      <tr>
+                        <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal w-2/5 bg-slate-900/40">
+                          EXHIBIT ID
+                        </th>
+                        <td className="py-2.5 px-3.5 text-slate-100">{exhibit.id}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
+                          ZONE
+                        </th>
+                        <td className="py-2.5 px-3.5 text-slate-100">{exhibit.zone}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
+                          ACTIVE YEARS
+                        </th>
+                        <td className="py-2.5 px-3.5 text-slate-100">{exhibit.years}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
+                          STATUS
+                        </th>
+                        <td className="py-2.5 px-3.5 text-slate-100 font-semibold">{exhibit.status}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
+                          COORDINATES
+                        </th>
+                        <td className="py-2.5 px-3.5 text-slate-100">
+                          {exhibit.lat.toFixed(4)}°, {exhibit.lng.toFixed(4)}°
+                        </td>
+                      </tr>
+                      {exhibit.distanceFromEarth && (
+                        <tr>
+                          <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
+                            EARTH DISTANCE
+                          </th>
+                          <td className="py-2.5 px-3.5 text-amber-300">{exhibit.distanceFromEarth}</td>
+                        </tr>
+                      )}
+                      <tr>
+                        <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
+                          PLANNED LIFETIME
+                        </th>
+                        <td className="py-2.5 px-3.5 text-slate-200">{exhibit.planned}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
+                          ACTUAL LIFETIME
+                        </th>
+                        <td className="py-2.5 px-3.5 text-emerald-300 font-medium">{exhibit.actual}</td>
+                      </tr>
+                      {exhibit.massKg && (
+                        <tr>
+                          <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
+                            HARDWARE MASS
+                          </th>
+                          <td className="py-2.5 px-3.5 text-slate-200">{exhibit.massKg}</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
+          )}
+
+          {activeTab === 'hardware' && (
+            <div className="animate-fade-in">
+              <InsideTheMachine
+                machineName={exhibit.name}
+                components={exhibit.hardwareComponents || []}
               />
             </div>
-            <figcaption className="px-3.5 py-2 text-xs font-mono text-slate-400 bg-[#07090E] border-t border-slate-800 flex items-center justify-between">
-              <span>Archival Exhibit Plate · {exhibit.id}</span>
-              <span>{exhibit.years}</span>
-            </figcaption>
-          </figure>
+          )}
 
-          {/* Section 1: The story (3-4 sentences) */}
-          <section className="space-y-2 pt-1">
-            <h3 className="text-sm font-mono uppercase tracking-wider text-amber-400 font-semibold">
-              The story
-            </h3>
-            <p className="text-[15px] leading-relaxed text-slate-200">
-              {exhibit.story}
-            </p>
-          </section>
-
-          {/* Section 2: What we learned */}
-          <section className="space-y-2 pt-3 border-t border-slate-800/80">
-            <h3 className="text-sm font-mono uppercase tracking-wider text-cyan-400 font-semibold">
-              What we learned
-            </h3>
-            <p className="text-[15px] leading-relaxed text-slate-200">
-              {exhibit.learned}
-            </p>
-          </section>
-
-          {/* Section 3: Hardware in simple words */}
-          <section className="space-y-2 pt-3 border-t border-slate-800/80">
-            <h3 className="text-sm font-mono uppercase tracking-wider text-emerald-400 font-semibold">
-              Hardware in simple words
-            </h3>
-            <p className="text-[15px] leading-relaxed text-slate-200">
-              {exhibit.hardware}
-            </p>
-          </section>
-
-          {/* Small Mono Data Table */}
-          <section className="space-y-2.5 pt-3 border-t border-slate-800/80">
-            <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">
-              Technical Specifications (Mono Data Table)
-            </h3>
-            <div className="border border-slate-800 rounded overflow-hidden bg-[#07090E]">
-              <table className="mono-table w-full text-left text-xs font-mono tabular-nums border-collapse">
-                <tbody className="divide-y divide-slate-800/90">
-                  <tr>
-                    <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal w-2/5 bg-slate-900/40">
-                      EXHIBIT ID
-                    </th>
-                    <td className="py-2.5 px-3.5 text-slate-100">{exhibit.id}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
-                      ZONE
-                    </th>
-                    <td className="py-2.5 px-3.5 text-slate-100">{exhibit.zone}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
-                      ACTIVE YEARS
-                    </th>
-                    <td className="py-2.5 px-3.5 text-slate-100">{exhibit.years}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
-                      STATUS
-                    </th>
-                    <td className="py-2.5 px-3.5 text-slate-100 font-semibold">{exhibit.status}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
-                      COORDINATES
-                    </th>
-                    <td className="py-2.5 px-3.5 text-slate-100">
-                      {exhibit.lat.toFixed(4)}°, {exhibit.lng.toFixed(4)}°
-                    </td>
-                  </tr>
-                  {exhibit.distanceFromEarth && (
-                    <tr>
-                      <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
-                        EARTH DISTANCE
-                      </th>
-                      <td className="py-2.5 px-3.5 text-amber-300">{exhibit.distanceFromEarth}</td>
-                    </tr>
-                  )}
-                  <tr>
-                    <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
-                      PLANNED LIFETIME
-                    </th>
-                    <td className="py-2.5 px-3.5 text-slate-200">{exhibit.planned}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
-                      ACTUAL LIFETIME
-                    </th>
-                    <td className="py-2.5 px-3.5 text-emerald-300 font-medium">{exhibit.actual}</td>
-                  </tr>
-                  {exhibit.massKg && (
-                    <tr>
-                      <th scope="row" className="py-2.5 px-3.5 text-slate-400 font-normal bg-slate-900/40">
-                        HARDWARE MASS
-                      </th>
-                      <td className="py-2.5 px-3.5 text-slate-200">{exhibit.massKg}</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+          {activeTab === 'timeline' && (
+            <div className="animate-fade-in">
+              <MissionTimelineView
+                milestones={exhibit.timelineMilestones || []}
+                missionName={exhibit.name}
+              />
             </div>
-          </section>
+          )}
 
-          {/* Source Link */}
-          <div className="pt-2 pb-4">
+          {activeTab === 'science' && (
+            <div className="animate-fade-in">
+              <WhatDidWeLearnView
+                findings={exhibit.scientificFindings || []}
+                machineName={exhibit.name}
+              />
+            </div>
+          )}
+
+          {activeTab === 'end' && (
+            <div className="animate-fade-in">
+              {exhibit.missionEndDetails ? (
+                <MissionEndView
+                  endRecord={exhibit.missionEndDetails}
+                  machineName={exhibit.name}
+                  status={exhibit.status}
+                />
+              ) : (
+                <div className="p-6 text-center text-zinc-500 font-mono text-sm">
+                  Mission conclusion logs are being retrieved from NASA archives.
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Official NASA Source Link */}
+          <div className="pt-2 pb-4 border-t border-slate-800">
             <a
               href={exhibit.source}
               target="_blank"
