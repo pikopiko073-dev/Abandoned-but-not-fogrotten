@@ -33,14 +33,14 @@ export const EngineerChallengeSection: React.FC = () => {
       </div>
 
       {/* Scenario Selector Pills */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-8">
+      <div className="flex overflow-x-auto sm:grid sm:grid-cols-2 md:grid-cols-4 gap-2 mb-6 sm:mb-8 pb-1 no-scrollbar touch-pan-x">
         {ENGINEER_SCENARIOS.map((sc, idx) => {
           const isActive = idx === selectedScenarioIndex;
           return (
             <button
               key={sc.id}
               onClick={() => handleSelectScenario(idx)}
-              className={`p-3.5 rounded-xl text-left border transition-all ${
+              className={`min-w-[140px] sm:min-w-0 p-3 sm:p-3.5 rounded-xl text-left border transition-all shrink-0 ${
                 isActive
                   ? 'bg-zinc-900 border-amber-400/80 shadow-lg shadow-amber-500/10 ring-1 ring-amber-400/30'
                   : 'bg-zinc-950/60 border-zinc-800 hover:border-zinc-700 hover:bg-zinc-900/50 text-zinc-400'
@@ -61,19 +61,19 @@ export const EngineerChallengeSection: React.FC = () => {
       {/* Main Mission Scenario Terminal */}
       <div className="rounded-2xl bg-zinc-950 border border-zinc-800 overflow-hidden shadow-2xl">
         {/* Terminal Header */}
-        <div className="flex flex-wrap items-center justify-between px-5 py-3.5 border-b border-zinc-800 bg-zinc-900/80 text-xs font-mono">
+        <div className="flex flex-wrap items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5 border-b border-zinc-800 bg-zinc-900/80 text-xs font-mono">
           <div className="flex items-center space-x-2 text-zinc-400">
             <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
             <span className="font-semibold text-zinc-200">{scenario.missionName}</span>
             <span className="text-zinc-500">· {scenario.missionYear}</span>
           </div>
-          <span className="text-amber-400 font-semibold uppercase tracking-wider">
-            NASA JPL FLIGHT OPERATIONS TERMINAL
+          <span className="text-amber-400 font-semibold uppercase tracking-wider text-[10px] sm:text-xs">
+            NASA JPL FLIGHT TERMINAL
           </span>
         </div>
 
         {/* Problem Briefing */}
-        <div className="p-6 sm:p-8 space-y-6">
+        <div className="p-4 sm:p-8 space-y-5 sm:space-y-6">
           <div>
             <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-1">
               EMERGENCY SITUATION REPORT

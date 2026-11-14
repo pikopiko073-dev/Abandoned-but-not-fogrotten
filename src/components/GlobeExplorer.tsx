@@ -351,7 +351,7 @@ export const GlobeExplorer: React.FC<GlobeExplorerProps> = ({
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
       {/* Main 3D Globe Viewport Stage (8 cols on desktop) */}
-      <div className="lg:col-span-8 relative flex flex-col min-h-[500px] sm:min-h-[560px] lg:min-h-[640px] bg-[#07090E] border border-slate-800 rounded overflow-hidden">
+      <div className="lg:col-span-8 relative flex flex-col min-h-[420px] sm:min-h-[560px] lg:min-h-[640px] bg-[#07090E] border border-slate-800 rounded-2xl overflow-hidden">
         {/* Top Viewport Telemetry Bar */}
         <div className="z-10 flex flex-wrap items-center justify-between gap-3 px-4 py-3 bg-[#0B0E17]/95 border-b border-slate-800 text-xs font-mono">
           <div className="flex flex-wrap items-center gap-2 text-slate-300">
@@ -466,7 +466,7 @@ export const GlobeExplorer: React.FC<GlobeExplorerProps> = ({
           {/* 3D Globe Mount */}
           <div
             ref={containerRef}
-            className="w-full h-[440px] sm:h-[500px] lg:h-[550px] cursor-grab active:cursor-grabbing"
+            className="w-full h-[380px] sm:h-[500px] lg:h-[550px] cursor-grab active:cursor-grabbing touch-pan-y"
             aria-label={`Interactive 3D globe of ${planet}. Drag to rotate, scroll to zoom, or select a landing site.`}
           />
 
@@ -521,8 +521,11 @@ export const GlobeExplorer: React.FC<GlobeExplorerProps> = ({
             ) : (
               <div className="flex items-center gap-2 text-slate-400">
                 <Sparkles className="w-3.5 h-3.5 text-amber-400/80 shrink-0" />
-                <span>
+                <span className="hidden sm:inline">
                   Drag to rotate · Scroll to zoom · Hover marker for name & years · Click marker to fly & open dossier
+                </span>
+                <span className="sm:hidden text-[11px]">
+                  Drag to rotate world · Tap marker to inspect
                 </span>
               </div>
             )}

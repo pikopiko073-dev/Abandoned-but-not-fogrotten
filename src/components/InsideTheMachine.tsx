@@ -66,7 +66,7 @@ export const InsideTheMachine: React.FC<InsideTheMachineProps> = ({
       </div>
 
       {/* Component Selection Pills */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+      <div className="flex overflow-x-auto sm:grid sm:grid-cols-3 md:grid-cols-5 gap-2 pb-1 no-scrollbar touch-pan-x">
         {components.map((comp) => {
           const isSelected = comp.id === activeComponent.id;
           const icon = ROLE_ICONS[comp.role] || '⚙️';
@@ -74,7 +74,7 @@ export const InsideTheMachine: React.FC<InsideTheMachineProps> = ({
             <button
               key={comp.id}
               onClick={() => setSelectedId(comp.id)}
-              className={`p-3 rounded-xl text-left transition-all border flex flex-col justify-between ${
+              className={`min-w-[130px] sm:min-w-0 p-3 rounded-xl text-left transition-all border flex flex-col justify-between shrink-0 ${
                 isSelected
                   ? 'bg-zinc-900 border-cyan-400 shadow-md shadow-cyan-500/10 ring-1 ring-cyan-400/30'
                   : 'bg-zinc-950/60 border-zinc-800 hover:border-zinc-700 hover:bg-zinc-900/40 text-zinc-400'
@@ -95,7 +95,7 @@ export const InsideTheMachine: React.FC<InsideTheMachineProps> = ({
       </div>
 
       {/* Detailed Subsystem Explorer Card */}
-      <div className="rounded-2xl bg-zinc-900/80 border border-zinc-800 p-5 sm:p-6 space-y-5 shadow-inner">
+      <div className="rounded-2xl bg-zinc-900/80 border border-zinc-800 p-4 sm:p-6 space-y-4 sm:space-y-5 shadow-inner">
         {/* Subsystem Name & Role Badge */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>

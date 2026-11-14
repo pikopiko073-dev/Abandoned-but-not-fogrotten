@@ -61,7 +61,7 @@ export const WhatDidWeLearnView: React.FC<WhatDidWeLearnViewProps> = ({
             </div>
 
             {/* WHAT WE FOUND */}
-            <div className="space-y-1 pl-10">
+            <div className="space-y-1 sm:pl-10">
               <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-cyan-400 block">
                 WHAT WE FOUND
               </span>
@@ -71,7 +71,7 @@ export const WhatDidWeLearnView: React.FC<WhatDidWeLearnViewProps> = ({
             </div>
 
             {/* WHY IT MATTERS */}
-            <div className="ml-10 p-4 rounded-xl bg-zinc-950/70 border border-zinc-800/80 space-y-1">
+            <div className="sm:ml-10 p-3.5 sm:p-4 rounded-xl bg-zinc-950/70 border border-zinc-800/80 space-y-1">
               <div className="flex items-center space-x-1.5 text-xs font-mono font-semibold text-emerald-400 uppercase tracking-wider">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -85,7 +85,7 @@ export const WhatDidWeLearnView: React.FC<WhatDidWeLearnViewProps> = ({
 
             {/* Scientific Term Explained (Student Glossary) */}
             {item.scientificTermExplained && (
-              <div className="ml-10 p-3 rounded-xl bg-amber-950/20 border border-amber-800/30 flex items-start space-x-2.5 text-xs text-amber-200/90">
+              <div className="sm:ml-10 p-3 rounded-xl bg-amber-950/20 border border-amber-800/30 flex items-start space-x-2.5 text-xs text-amber-200/90">
                 <span className="text-amber-400 text-sm mt-0.5">📖</span>
                 <div>
                   <span className="font-mono font-semibold text-amber-300 uppercase tracking-wider text-[10px] block">

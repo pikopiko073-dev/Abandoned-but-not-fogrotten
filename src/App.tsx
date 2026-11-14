@@ -192,50 +192,50 @@ export default function App() {
               NASA Educational Space Museum
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-[1.1]">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.1]">
               THE MACHINES WE LEFT BEHIND
             </h1>
 
-            <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto font-sans leading-relaxed">
+            <p className="text-sm sm:text-lg md:text-xl text-slate-300 max-w-2xl mx-auto font-sans leading-relaxed">
               Explore the stories, hardware and discoveries of NASA machines that reached the Moon, Mars and deep space.
             </p>
 
             {/* 4 Action Buttons Required by NASA Challenge Prompt */}
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-2.5 sm:gap-3 pt-2 w-full max-w-lg sm:max-w-none mx-auto">
               <button
                 type="button"
                 onClick={() => handleExploreZone('Moon')}
-                className="px-5 py-2.5 rounded-xl border border-slate-700 bg-slate-900 hover:bg-slate-800 hover:border-slate-600 text-slate-200 font-mono text-xs font-semibold transition-all flex items-center space-x-2 shadow-sm"
+                className="w-full sm:w-auto px-3.5 sm:px-5 py-2.5 rounded-xl border border-slate-700 bg-slate-900 hover:bg-slate-800 hover:border-slate-600 text-slate-200 font-mono text-[11px] sm:text-xs font-semibold transition-all flex items-center justify-center space-x-2 shadow-sm min-h-[44px]"
               >
-                <span className="w-2.5 h-2.5 rounded-full bg-slate-300" />
-                <span>EXPLORE THE MOON</span>
+                <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-slate-300 shrink-0" />
+                <span className="truncate">EXPLORE MOON</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => handleExploreZone('Mars')}
-                className="px-5 py-2.5 rounded-xl border border-orange-500/40 bg-orange-950/20 hover:bg-orange-950/40 text-orange-200 font-mono text-xs font-semibold transition-all flex items-center space-x-2 shadow-sm"
+                className="w-full sm:w-auto px-3.5 sm:px-5 py-2.5 rounded-xl border border-orange-500/40 bg-orange-950/20 hover:bg-orange-950/40 text-orange-200 font-mono text-[11px] sm:text-xs font-semibold transition-all flex items-center justify-center space-x-2 shadow-sm min-h-[44px]"
               >
-                <span className="w-2.5 h-2.5 rounded-full bg-orange-500" />
-                <span>EXPLORE MARS</span>
+                <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-orange-500 shrink-0" />
+                <span className="truncate">EXPLORE MARS</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => handleExploreZone('Deep Space')}
-                className="px-5 py-2.5 rounded-xl border border-amber-500/40 bg-amber-950/20 hover:bg-amber-950/40 text-amber-200 font-mono text-xs font-semibold transition-all flex items-center space-x-2 shadow-sm"
+                className="w-full sm:w-auto px-3.5 sm:px-5 py-2.5 rounded-xl border border-amber-500/40 bg-amber-950/20 hover:bg-amber-950/40 text-amber-200 font-mono text-[11px] sm:text-xs font-semibold transition-all flex items-center justify-center space-x-2 shadow-sm min-h-[44px]"
               >
-                <Orbit className="w-3.5 h-3.5 text-amber-400" />
-                <span>EXPLORE DEEP SPACE</span>
+                <Orbit className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                <span className="truncate">DEEP SPACE</span>
               </button>
 
               <button
                 type="button"
                 onClick={handleHeroStartStory}
-                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-mono text-xs font-bold tracking-wider uppercase transition-all shadow-lg shadow-cyan-500/20 flex items-center space-x-2"
+                className="w-full sm:w-auto px-4 sm:px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-mono text-[11px] sm:text-xs font-bold tracking-wider uppercase transition-all shadow-lg shadow-cyan-500/20 flex items-center justify-center space-x-2 min-h-[44px]"
               >
-                <Sparkles className="w-4 h-4" />
-                <span>START A STORY</span>
+                <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">START A STORY</span>
               </button>
             </div>
           </div>

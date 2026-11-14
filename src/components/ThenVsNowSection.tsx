@@ -23,14 +23,14 @@ export const ThenVsNowSection: React.FC = () => {
       </div>
 
       {/* Decade Selector Bar */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-8">
+      <div className="flex overflow-x-auto sm:grid sm:grid-cols-5 gap-2 mb-6 sm:mb-8 pb-1 no-scrollbar touch-pan-x">
         {EVOLUTION_ERAS.map((item, idx) => {
           const isActive = idx === selectedEraIndex;
           return (
             <button
               key={item.decade}
               onClick={() => setSelectedEraIndex(idx)}
-              className={`p-3.5 rounded-xl text-left border transition-all ${
+              className={`min-w-[140px] sm:min-w-0 p-3 sm:p-3.5 rounded-xl text-left border transition-all shrink-0 ${
                 isActive
                   ? 'bg-zinc-900 border-cyan-400 shadow-lg shadow-cyan-500/10 ring-1 ring-cyan-400/30'
                   : 'bg-zinc-950/60 border-zinc-800 hover:border-zinc-700 hover:bg-zinc-900/50 text-zinc-400'
@@ -53,7 +53,7 @@ export const ThenVsNowSection: React.FC = () => {
       {/* Era Spotlight Card */}
       <div className="rounded-2xl bg-zinc-950 border border-zinc-800 overflow-hidden shadow-2xl">
         {/* Era Banner */}
-        <div className="p-6 sm:p-8 border-b border-zinc-800 bg-zinc-900/60 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="p-5 sm:p-8 border-b border-zinc-800 bg-zinc-900/60 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center space-x-2 text-xs font-mono text-cyan-400">
               <span className="px-2 py-0.5 rounded bg-cyan-950 border border-cyan-800 font-bold uppercase">
@@ -69,14 +69,14 @@ export const ThenVsNowSection: React.FC = () => {
             </p>
           </div>
 
-          <div className="p-4 rounded-xl bg-zinc-950 border border-zinc-800 md:text-right shrink-0">
+          <div className="p-3.5 sm:p-4 rounded-xl bg-zinc-950 border border-zinc-800 md:text-right shrink-0">
             <span className="text-[10px] font-mono uppercase text-zinc-500 block">REPRESENTATIVE MACHINE</span>
             <span className="text-sm font-bold font-mono text-cyan-300">{era.representativeMachine}</span>
           </div>
         </div>
 
         {/* 6 Core Subsystems Comparison Grid */}
-        <div className="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="p-4 sm:p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {/* Computing */}
           <div className="p-5 rounded-xl bg-zinc-900/70 border border-zinc-800/80 space-y-2">
             <div className="flex items-center space-x-2 text-xs font-mono font-semibold text-cyan-400 uppercase tracking-wider">

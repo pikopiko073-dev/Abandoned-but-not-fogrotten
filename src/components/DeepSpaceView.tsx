@@ -32,6 +32,7 @@ export const DeepSpaceView: React.FC<DeepSpaceViewProps> = ({
           </div>
           <p className="text-xs font-mono text-slate-400">
             Select any spacecraft node or editorial row to open its full exhibit dossier
+            <span className="sm:hidden text-cyan-400 block mt-0.5">↔ Swipe diagram horizontally to view distance scale</span>
           </p>
         </div>
 

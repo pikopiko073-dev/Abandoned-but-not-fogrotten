@@ -69,13 +69,13 @@ export const StoryModeModal: React.FC<StoryModeModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby="story-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in text-white"
+      className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-6 bg-black/90 backdrop-blur-md animate-fade-in text-white"
     >
-      <div className="relative w-full max-w-4xl max-h-[92vh] flex flex-col bg-zinc-950 border border-zinc-700/60 rounded-2xl shadow-2xl overflow-hidden">
+      <div className="relative w-full max-w-4xl h-full sm:h-auto sm:max-h-[92vh] flex flex-col bg-zinc-950 border-0 sm:border border-zinc-700/60 rounded-none sm:rounded-2xl shadow-2xl overflow-hidden">
         {/* Top Header Bar */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800 bg-zinc-900/60">
-          <div className="flex items-center space-x-3">
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 uppercase tracking-widest">
+        <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-4 border-b border-zinc-800 bg-zinc-900/80 shrink-0">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-mono font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 uppercase tracking-wider sm:tracking-widest">
               Story Mode · 10-Stage Odyssey
             </span>
             <span className="hidden sm:inline text-xs text-zinc-400 font-mono">
@@ -85,7 +85,7 @@ export const StoryModeModal: React.FC<StoryModeModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            className="p-2 sm:p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500 min-h-[40px] min-w-[40px] flex items-center justify-center"
             title="Close story (Esc)"
             aria-label="Close story"
           >
@@ -96,9 +96,9 @@ export const StoryModeModal: React.FC<StoryModeModalProps> = ({
         </div>
 
         {/* Progress Bar & Stage Stepper */}
-        <div className="px-5 pt-3 pb-2 bg-zinc-900/30 border-b border-zinc-800/60">
-          <div className="flex items-center justify-between text-xs font-mono text-zinc-400 mb-2">
-            <span>
+        <div className="px-4 sm:px-5 pt-2.5 pb-2 bg-zinc-900/40 border-b border-zinc-800/60 shrink-0">
+          <div className="flex items-center justify-between text-xs font-mono text-zinc-400 mb-1.5">
+            <span className="text-[11px] sm:text-xs">
               {isFinalScreen ? (
                 <span className="text-emerald-400 font-semibold">MISSION CONCLUSION</span>
               ) : (
@@ -113,7 +113,7 @@ export const StoryModeModal: React.FC<StoryModeModalProps> = ({
           </div>
 
           {/* Stepper Dots / Bars */}
-          <div className="grid grid-cols-11 gap-1.5 h-1.5">
+          <div className="grid grid-cols-11 gap-1 sm:gap-1.5 h-1.5">
             {stages.map((st, idx) => (
               <button
                 key={st.stageName + idx}
@@ -144,7 +144,7 @@ export const StoryModeModal: React.FC<StoryModeModalProps> = ({
         </div>
 
         {/* Modal Body / Scrollable Content */}
-        <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-8 space-y-4 sm:space-y-6">
           {!isFinalScreen && currentStage ? (
             <div className="space-y-6 animate-fade-in">
               {/* Stage Badge & Date */}
@@ -292,11 +292,11 @@ export const StoryModeModal: React.FC<StoryModeModalProps> = ({
         </div>
 
         {/* Bottom Navigation Toolbar */}
-        <div className="flex items-center justify-between px-5 py-4 border-t border-zinc-800 bg-zinc-900/60">
+        <div className="flex items-center justify-between px-3.5 sm:px-5 py-3 sm:py-4 border-t border-zinc-800 bg-zinc-900/80 shrink-0">
           <button
             onClick={handlePrev}
             disabled={currentStepIndex === 0}
-            className={`px-4 py-2 rounded-xl text-xs font-mono transition-all flex items-center space-x-1.5 ${
+            className={`min-h-[44px] px-3 sm:px-4 py-2 rounded-xl text-xs font-mono transition-all flex items-center space-x-1.5 ${
               currentStepIndex === 0
                 ? 'opacity-30 cursor-not-allowed text-zinc-500 bg-zinc-900'
                 : 'text-zinc-300 hover:text-white bg-zinc-800 hover:bg-zinc-700'
@@ -305,17 +305,17 @@ export const StoryModeModal: React.FC<StoryModeModalProps> = ({
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            <span>PREVIOUS</span>
+            <span className="hidden xs:inline">PREVIOUS</span>
           </button>
 
-          <span className="text-xs font-mono text-zinc-500">
+          <span className="text-[11px] sm:text-xs font-mono text-zinc-500">
             {isFinalScreen ? '11 of 11' : `${currentStepIndex + 1} of ${totalStages}`}
           </span>
 
           {!isFinalScreen ? (
             <button
               onClick={handleNext}
-              className="px-5 py-2 rounded-xl text-xs font-mono font-semibold transition-all flex items-center space-x-1.5 bg-cyan-500 hover:bg-cyan-400 text-black shadow-md shadow-cyan-500/20"
+              className="min-h-[44px] px-3.5 sm:px-5 py-2 rounded-xl text-xs font-mono font-semibold transition-all flex items-center space-x-1.5 bg-cyan-500 hover:bg-cyan-400 text-black shadow-md shadow-cyan-500/20"
             >
               <span>{currentStepIndex === totalStages - 1 ? 'VIEW LEGACY' : 'NEXT STAGE'}</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -325,9 +325,9 @@ export const StoryModeModal: React.FC<StoryModeModalProps> = ({
           ) : (
             <button
               onClick={onClose}
-              className="px-5 py-2 rounded-xl text-xs font-mono font-semibold transition-all flex items-center space-x-1.5 bg-emerald-500 hover:bg-emerald-400 text-black shadow-md shadow-emerald-500/20"
+              className="min-h-[44px] px-3.5 sm:px-5 py-2 rounded-xl text-xs font-mono font-semibold transition-all flex items-center space-x-1.5 bg-emerald-500 hover:bg-emerald-400 text-black shadow-md shadow-emerald-500/20"
             >
-              <span>RETURN TO MUSEUM</span>
+              <span>RETURN</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>

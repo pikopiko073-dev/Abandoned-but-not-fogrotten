@@ -175,7 +175,7 @@ export const ExhibitDetailPanel: React.FC<ExhibitDetailPanelProps> = ({
               <button
                 type="button"
                 onClick={() => onStartStory(exhibit)}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-md shadow-cyan-500/20 shrink-0"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-md shadow-cyan-500/20 shrink-0 min-h-[44px]"
                 title="Launch 10-stage sequential storytelling journey"
               >
                 <Sparkles className="w-3.5 h-3.5" />
@@ -185,10 +185,10 @@ export const ExhibitDetailPanel: React.FC<ExhibitDetailPanelProps> = ({
           </div>
 
           {/* Interactive Navigation Tabs */}
-          <div className="flex items-center space-x-1 overflow-x-auto pt-2 no-scrollbar">
+          <div className="flex items-center space-x-1.5 overflow-x-auto pt-2 pb-1 no-scrollbar touch-pan-x">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-colors whitespace-nowrap ${
+              className={`flex items-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-mono transition-colors whitespace-nowrap shrink-0 min-h-[36px] ${
                 activeTab === 'overview'
                   ? 'bg-slate-800 text-white font-semibold border border-slate-700'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
@@ -200,7 +200,7 @@ export const ExhibitDetailPanel: React.FC<ExhibitDetailPanelProps> = ({
 
             <button
               onClick={() => setActiveTab('hardware')}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-colors whitespace-nowrap ${
+              className={`flex items-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-mono transition-colors whitespace-nowrap shrink-0 min-h-[36px] ${
                 activeTab === 'hardware'
                   ? 'bg-emerald-950/60 text-emerald-300 font-semibold border border-emerald-800'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
@@ -212,7 +212,7 @@ export const ExhibitDetailPanel: React.FC<ExhibitDetailPanelProps> = ({
 
             <button
               onClick={() => setActiveTab('timeline')}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-colors whitespace-nowrap ${
+              className={`flex items-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-mono transition-colors whitespace-nowrap shrink-0 min-h-[36px] ${
                 activeTab === 'timeline'
                   ? 'bg-cyan-950/60 text-cyan-300 font-semibold border border-cyan-800'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
@@ -224,7 +224,7 @@ export const ExhibitDetailPanel: React.FC<ExhibitDetailPanelProps> = ({
 
             <button
               onClick={() => setActiveTab('science')}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-colors whitespace-nowrap ${
+              className={`flex items-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-mono transition-colors whitespace-nowrap shrink-0 min-h-[36px] ${
                 activeTab === 'science'
                   ? 'bg-purple-950/60 text-purple-300 font-semibold border border-purple-800'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
@@ -236,7 +236,7 @@ export const ExhibitDetailPanel: React.FC<ExhibitDetailPanelProps> = ({
 
             <button
               onClick={() => setActiveTab('end')}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-colors whitespace-nowrap ${
+              className={`flex items-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-mono transition-colors whitespace-nowrap shrink-0 min-h-[36px] ${
                 activeTab === 'end'
                   ? 'bg-amber-950/60 text-amber-300 font-semibold border border-amber-800'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
